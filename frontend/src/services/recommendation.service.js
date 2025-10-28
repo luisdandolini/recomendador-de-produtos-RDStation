@@ -34,7 +34,7 @@ const getRecommendations = (formData, products) => {
   } = formData;
 
   if (!products || products.length === 0) {
-    return selectedRecommendationType === "SingleProduct" ? null : [];
+    return [];
   }
 
   const productsWithScore = products.map((product) => ({
@@ -51,7 +51,7 @@ const getRecommendations = (formData, products) => {
   );
 
   if (validProducts.length === 0) {
-    return selectedRecommendationType === "SingleProduct" ? null : [];
+    return [];
   }
 
   const sortedProducts = validProducts.sort((a, b) => b.score - a.score);
@@ -63,7 +63,7 @@ const getRecommendations = (formData, products) => {
       (product) => product.score === maxScore
     );
 
-    return topProducts[topProducts.length - 1];
+    return [topProducts[topProducts.length - 1]];
   }
 
   return sortedProducts;

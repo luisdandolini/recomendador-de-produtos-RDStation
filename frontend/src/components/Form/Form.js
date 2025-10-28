@@ -22,14 +22,7 @@ function Form({ onRecommendationsUpdate }) {
     const dataRecommendations = getRecommendations(formData);
 
     if (onRecommendationsUpdate) {
-      const recommendationsArray =
-        formData.selectedRecommendationType === "SingleProduct"
-          ? dataRecommendations
-            ? [dataRecommendations]
-            : []
-          : dataRecommendations || [];
-
-      onRecommendationsUpdate(recommendationsArray);
+      onRecommendationsUpdate(dataRecommendations || []);
     }
   };
 
