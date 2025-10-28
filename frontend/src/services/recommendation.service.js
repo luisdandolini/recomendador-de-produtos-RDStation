@@ -69,4 +69,8 @@ const getRecommendations = (formData, products) => {
   return sortedProducts;
 };
 
-export default { getRecommendations };
+const recommendationService = {
+  getRecommendations,
+};
+
+export default recommendationService;
