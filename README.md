@@ -1,102 +1,200 @@
-# Teste Técnico - Recomendador de Produtos RD Station
+# Recomendador de Produtos RD Station
 
-Este projeto é parte do teste técnico para a vaga de desenvolvedor front-end na RD Station. O objetivo principal é implementar a lógica de recomendação de produtos RD Station em uma aplicação web existente.
+Sistema de recomendação de produtos desenvolvido como parte do processo seletivo para desenvolvedor front-end na RD Station.
 
-## Missão
+## 🌐 Deploy
 
-Sua missão é desenvolver a funcionalidade central de recomendação de produtos dentro de uma aplicação React.js pré-existente. Você deverá implementar a lógica que permite aos usuários selecionar suas preferências e funcionalidades desejadas, e então receber recomendações de produtos correspondentes.
+**[Ver aplicação ao vivo](https://recomendador-de-produtos-rd-station.vercel.app/)**
 
-## Contexto
+Obs: Quando acessado pela primeira vez, pode ocasionar um "delay" de até 50 segundos para "acordar" o backend.
 
-Este projeto é parte de uma etapa técnica do processo seletivo para a vaga de desenvolvedor front-end na RD Station. A estrutura básica da aplicação já está construída com React.js para o front-end e utiliza json-server para simular um servidor RESTful com dados de produtos.
+## 🔧 Variáveis de Ambiente
 
-Seu foco deve ser na implementação da lógica de recomendação e na integração desta funcionalidade com a interface do usuário existente. A aplicação já possui um layout básico utilizando Tailwind CSS.
+### Frontend (.env)
 
-## Tecnologias Utilizadas
+```bash
+REACT_APP_API_URL=http://localhost:3001 => Rodar com backend local
+REACT_APP_API_URL=https://recomendador-de-produtos-rdstation.onrender.com => Rodar com backend de "prod"
+```
 
-Este projeto utiliza as seguintes tecnologias principais:
+> **Nota**: Crie um arquivo `.env` na raiz da pasta frontend com as variáveis acima.
 
-- React.js: Para o desenvolvimento do front-end
-- json-server: Para simular um servidor RESTful com dados de produtos
-- Tailwind CSS: Para estilização e layout responsivo
+## 🚀 Como Executar
 
-## Requisitos Técnicos
+1. Clone o repositório
+2. **Configure as variáveis de ambiente** conforme acima
+3. Execute `yarn install`
+4. Execute `yarn dev`
 
-### Familiaridade com Tailwind CSS
+## 📋 Sobre o Projeto
 
-O layout da aplicação foi desenvolvido utilizando Tailwind CSS. Familiaridade básica com este framework de CSS utilitário será útil para entender e potencialmente modificar o layout existente.
+Aplicação React que recomenda produtos da RD Station com base nas preferências e funcionalidades selecionadas pelo usuário, utilizando um algoritmo de pontuação personalizado.
 
-### Versão do Node.js
+## ✨ Funcionalidades
 
-Este projeto requer Node.js versão 18.3 ou superior. Se você não tem essa versão instalada, siga as instruções abaixo para instalá-la usando `n` ou `nvm`.
+- ✅ Sistema de recomendação inteligente baseado em pontuação
+- ✅ Dois modos de recomendação (produto único ou múltiplos)
+- ✅ Validação de formulário com feedback visual
+- ✅ Contador de seleções em tempo real
+- ✅ Loading states e animações suaves
+- ✅ Botão para limpar formulário
+- ✅ Tratamento de empates (retorna último válido)
+- ✅ Interface responsiva com Tailwind CSS
+- ✅ Testes unitários com boa cobertura
 
-#### Usando `n` (Node Version Manager):
+## 🚀 Tecnologias
 
-1. Instale `n` globalmente (caso ainda não tenha): npm install -g n
+- **React.js 18.2.0** - Framework frontend
+- **json-server** - API REST mockada
+- **Tailwind CSS** - Estilização
+- **React Icons** - Biblioteca de ícones
+- **Jest + Testing Library** - Testes unitários
+- **ESLint** - Qualidade de código
 
-2. Instale e use a versão 18.3 do Node.js: n 18.3
+## 💡 Solução Implementada
 
-#### Usando `nvm` (Node Version Manager):
+### Algoritmo de Recomendação
 
-1. Instale `nvm` (caso ainda não tenha) seguindo as instruções em: https://github.com/nvm-sh/nvm
+O sistema utiliza um **algoritmo de pontuação baseado em matching** que:
 
-2. Instale e use a versão 18.3 do Node.js: nvm install 18.3 & nvm use 18.3
+1. **Calcula pontos** para cada produto baseado nas seleções do usuário:
 
-Após instalar a versão correta do Node.js, você pode prosseguir com a instalação das dependências do projeto e iniciar o desenvolvimento.
+   - +1 ponto para cada preferência que o produto atende
+   - +1 ponto para cada funcionalidade que o produto oferece
 
-## Foco do Desenvolvimento
+2. **Filtra produtos válidos** (pontuação > 0)
 
-Para completar este teste, você deve concentrar-se principalmente em três arquivos específicos:
+3. **Ordena por pontuação** (maior para menor)
 
-1. `App.js`: Neste componente, você encontrará o comentário "Dadas atualizações no formulário, necessário atualizar a lista de recomendações". Implemente a lógica necessária para atualizar a lista de recomendações com base nas entradas do usuário.
+4. **Retorna baseado no modo**:
+   - `SingleProduct`: Retorna 1 produto (em empate, o último válido)
+   - `MultipleProducts`: Retorna todos os produtos válidos ordenados
 
-2. `Form.js`: Este componente contém o comentário "Defina aqui a lógica para atualizar as recomendações e passar para a lista de recomendações". Desenvolva a lógica para processar as entradas do usuário e gerar as recomendações apropriadas.
+### Arquitetura
 
-3. `recommendation.service.js`: Neste arquivo de serviço, você verá o comentário "Crie aqui a lógica para retornar os produtos recomendados." Implemente a lógica de negócios para determinar quais produtos devem ser recomendados com base nos critérios fornecidos.
+```
+frontend/
+├── src/
+│   ├── components/
+│   │   ├── Form/              # Formulário de seleção
+│   │   └── RecommendationList/ # Exibição de resultados
+│   ├── services/
+│   │   └── recommendation.service.js  # Lógica de recomendação
+│   ├── hooks/                 # Custom hooks
+│   └── App.js                 # Componente principal
+```
 
-## Observações Adicionais
+### Decisões Técnicas
 
-- Sinta-se à vontade para implementar melhorias na cobertura de testes e no layout da aplicação, caso tenha tempo adicional.
-- O código existente serve como base para sua implementação. Concentre-se em desenvolver a funcionalidade de recomendação de produtos conforme especificado nos requisitos do projeto e nos arquivos mencionados acima.
+1. **Interface consistente**: Serviço sempre retorna array para facilitar manipulação no React
 
-## Requisitos
+2. **Separação de responsabilidades**:
 
-- Implementar a lógica de recomendação de produtos com base nas preferências do usuário.
-- Utilizar React.js para o desenvolvimento do front-end.
-- Consumir a API fornecida pelo json-server para obter os dados dos produtos.
-- Seguir as boas práticas de desenvolvimento e organização de código.
-- Implementar testes unitários para as funcionalidades desenvolvidas.
+   - `recommendation.service.js` - Lógica pura (testável)
+   - `Form.js` - Gerenciamento de estado
+   - `App.js` - Orquestração
 
-## Como Executar
+3. **Tratamento de edge cases**:
 
-1. Clone o repositório: `git clone <URL_DO_REPOSITORIO>`
-2. Instale as dependências: `yarn install`
-3. Para instalar o projeto, execute o script `./install.sh` 
-4. Inicie a aplicação: `yarn start`
+   - Array de produtos vazio
+   - Nenhuma seleção
+   - Nenhum produto com match
+   - Empates (retorna último válido conforme especificação)
 
-### Scripts Disponíveis
+4. **UX aprimorada**:
+   - Validação de formulário com mensagens claras
+   - Loading states durante processamento
+   - Feedback visual com badges de contagem
+   - Botão de limpar formulário
+   - Animações suaves de transição
 
-- `start`: Inicia a aplicação React em modo de desenvolvimento.
-- `start:frontend`: Inicia apenas a parte frontend da aplicação em modo de desenvolvimento.
-- `start:backend`: Inicia apenas a parte backend da aplicação em modo de desenvolvimento.
-- `dev`: Inicia simultaneamente a parte frontend e backend da aplicação em modo de desenvolvimento.
+## 🔧 Como Executar
 
-## Critérios de Aceite
+### Pré-requisitos
 
-1. O serviço de recomendação de produtos deve ser capaz de receber as preferências e funcionalidades desejadas do usuário através de um formulário.
-2. O serviço deve retornar recomendações de produtos com base nas preferências e funcionalidades selecionadas pelo usuário.
-3. Se o tipo de recomendação selecionado for "SingleProduct", o serviço deve retornar apenas um produto que corresponda melhor às preferências e funcionalidades do usuário.
-4. Se o tipo de recomendação selecionado for "MultipleProducts", o serviço deve retornar uma lista de produtos que correspondam às preferências e funcionalidades do usuário.
-5. Em caso de empate na seleção de produtos com base nas preferências e funcionalidades do usuário, o serviço deve retornar o último produto que atende aos critérios de seleção.
-6. O serviço deve ser capaz de lidar com diferentes tipos de preferências e funcionalidades selecionadas pelo usuário.
-7. O serviço deve ser modular e facilmente extensível para futuras atualizações e adições de funcionalidades.
+- Node.js >= 18.3
+- Yarn
 
-Certifique-se de que todos os critérios de aceite são atendidos durante o desenvolvimento do projeto.
+### Instalação
 
-## Autor
+```bash
+# Clone o repositório
+git clone https://github.com/luisdandolini/recomendador-de-produtos-RDStation.git
 
-Desenvolvido por [Seu Nome]
+# Entre na pasta
+cd recomendador-de-produtos-RDStation
 
-## Licença
+# Instale as dependências
+yarn install
 
-Este projeto está licenciado sob a [Licença MIT](LICENSE).
+# Execute o script de instalação
+./install.sh
+```
+
+### Executar a aplicação
+
+```bash
+# Inicia frontend e backend simultaneamente
+yarn dev
+
+# OU iniciá-los separadamente:
+yarn start:frontend  # Frontend em http://localhost:3000
+yarn start:backend   # Backend em http://localhost:3001
+```
+
+## 🧪 Testes
+
+```bash
+# Executar todos os testes
+cd frontend && yarn test
+
+# Executar testes em modo watch
+yarn test --watch
+
+# Gerar relatório de cobertura
+yarn test --coverage
+```
+
+### Cobertura de Testes
+
+✅ Casos de sucesso (SingleProduct e MultipleProducts)  
+✅ Casos de empate  
+✅ Edge cases (sem seleção, sem match, array vazio)  
+✅ Validação de ordenação por pontuação
+
+## 📦 Scripts Disponíveis
+
+```bash
+yarn start          # Inicia frontend e backend (via Lerna)
+yarn dev            # Inicia frontend e backend (via Concurrently)
+yarn start:frontend # Apenas frontend
+yarn start:backend  # Apenas backend
+yarn test           # Executa testes
+yarn lint           # Verifica código com ESLint
+yarn lint:fix       # Corrige problemas do ESLint automaticamente
+```
+
+## ✅ Critérios de Aceite Atendidos
+
+- [x] Recebe preferências e funcionalidades via formulário
+- [x] Retorna recomendações baseadas nas seleções
+- [x] Modo SingleProduct retorna 1 produto
+- [x] Modo MultipleProducts retorna lista ordenada
+- [x] Em caso de empate, retorna último produto válido
+- [x] Lida com diferentes tipos de preferências
+- [x] Código modular e extensível
+- [x] Testes unitários implementados
+
+## 🎯 Produtos Disponíveis
+
+- **RD Station CRM** - Gestão de vendas
+- **RD Station Marketing** - Automação de marketing
+- **RD Conversas** - Comunicação omnichannel
+- **RD Mentor AI** - Inteligência artificial
+
+## 👤 Autor
+
+**Luis Fernando Dandolini Duarte**
+
+[![LinkedIn](https://img.shields.io/badge/-LinkedIn-blue?style=flat&logo=Linkedin&logoColor=white)](https://www.linkedin.com/in/luis-dandolini-duarte/)
+[![GitHub](https://img.shields.io/badge/-GitHub-181717?style=flat&logo=github)](https://github.com/luisdandolini)
